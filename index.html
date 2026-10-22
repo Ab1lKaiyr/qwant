@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>QWANT олимпиадасы</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Физика пәнінен QWANT олимпиадасының күн тәртібі: екі күн, уақыт пен аудиториялар.">
+<meta name="theme-color" content="#060818">
+<meta property="og:type" content="website">
+<meta property="og:title" content="QWANT — физика пәнінен олимпиада">
+<meta property="og:description" content="27 қазан 2026 · екі күндік олимпиаданың күн тәртібі: уақыт, кезеңдер, аудиториялар.">
+<meta property="og:url" content="https://ab1lkaiyr.github.io/qwant/">
+<meta property="og:image" content="https://ab1lkaiyr.github.io/qwant/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23060818'/%3E%3Cg fill='none' stroke-width='1.4'%3E%3Cellipse cx='12' cy='12' rx='9' ry='3.6' stroke='%238B5CF6'/%3E%3Cellipse cx='12' cy='12' rx='9' ry='3.6' stroke='%2322D3EE' transform='rotate(60 12 12)'/%3E%3Cellipse cx='12' cy='12' rx='9' ry='3.6' stroke='%23FDE047' transform='rotate(120 12 12)'/%3E%3C/g%3E%3Ccircle cx='12' cy='12' r='2' fill='%23F43F5E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;700;800&family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=JetBrains+Mono:wght@500;600&family=Unbounded:wght@800&display=swap">
+<style>
+/* Layout: the schedule is the page. Two glass "day" panels over a full-screen canvas where seven
+   physics phenomena take turns (Bohr atom, Kepler orbits, interference, field lines, Chladni sand,
+   dispersion, Brownian motion). Times are coloured by their place in the visible spectrum:
+   09:00 = 400 nm violet ... 16:00 = 680 nm red. Single deliberate night theme. */
+:root{
+  color-scheme:dark;
+  --bg:#060818;
+  --ink:#EEF1FF; --muted:#AEB6DD; --dim:#7F89BA;
+  --line:rgba(165,180,255,.17);
+  --glass:rgba(9,12,34,.56);
+  --v:#8B5CF6; --b:#3B82F6; --c:#22D3EE; --g:#34D399; --y:#FDE047; --o:#FB923C; --r:#F43F5E;
+  --spectrum:linear-gradient(90deg,#8B5CF6,#3B82F6,#22D3EE,#34D399,#FDE047,#FB923C,#F43F5E);
+  --font-logo:"Unbounded","Geologica",system-ui,sans-serif;
+  --font-display:"Geologica","Golos Text",system-ui,sans-serif;
+  --font-body:"Golos Text","Geologica",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --font-math:"JetBrains Mono","IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+
+#bg{position:fixed;left:0;top:0;width:100vw;height:100vh;height:100lvh;z-index:0;display:block}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(6,8,24,.55) 0%,rgba(6,8,24,0) 34%),
+             radial-gradient(120% 70% at 50% 110%,rgba(6,8,24,.55),rgba(6,8,24,0) 60%)}
+.page{position:relative;z-index:2;padding-top:calc(env(safe-area-inset-top,0px) + clamp(22px,5vw,52px));padding-bottom:calc(env(safe-area-inset-bottom,0px) + 104px)}
+.wrap{max-width:1160px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* header */
+.top{text-shadow:0 2px 18px rgba(0,0,0,.6)}
+.eyebrow{display:flex;align-items:center;gap:10px;margin:0;font-family:var(--font-mono);font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.eyebrow svg{width:22px;height:22px;flex:none}
+.wordmark{margin:10px 0 0;font-family:var(--font-logo);font-weight:800;font-size:clamp(64px,15vw,148px);line-height:.9;letter-spacing:-.01em;padding-right:.06em;
+  background:linear-gradient(90deg,#8B5CF6,#3B82F6,#22D3EE,#34D399,#FDE047,#FB923C,#F43F5E,#8B5CF6);background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 30px rgba(139,92,246,.45));text-shadow:none}
+@media (prefers-reduced-motion:no-preference){.wordmark{animation:sweep 10s linear infinite}}
+@keyframes sweep{to{background-position:200% 0}}
+.lead{margin:14px 0 0;font-size:clamp(16px,2vw,19px);color:#DDE2F9;max-width:40ch}
+
+/* schedule head */
+.sched{margin-top:clamp(26px,5vw,48px)}
+.sched-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin-bottom:18px}
+h2{margin:0;font-family:var(--font-display);font-weight:800;font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.015em;text-shadow:0 2px 18px rgba(0,0,0,.6)}
+.status{display:inline-flex;align-items:center;gap:10px;max-width:100%;padding:9px 15px 9px 12px;border-radius:999px;border:1px solid var(--line);background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:14.5px;font-variant-numeric:tabular-nums}
+.status .dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
+.status[data-live="now"] .dot{background:var(--r);box-shadow:0 0 12px var(--r)}
+@media (prefers-reduced-motion:no-preference){.status[data-live="now"] .dot{animation:pulse 1.6s ease-in-out infinite}}
+@keyframes pulse{50%{transform:scale(1.6);opacity:.5}}
+
+/* day panels */
+.days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2.4vw,26px);align-items:start}
+@media (max-width:880px){.days{grid-template-columns:minmax(0,1fr)}}
+.day{position:relative;border-radius:22px;padding:clamp(16px,2.4vw,26px);background:var(--glass);border:1px solid var(--line);
+  -webkit-backdrop-filter:blur(6px) saturate(150%);backdrop-filter:blur(6px) saturate(150%);box-shadow:0 20px 60px rgba(0,0,0,.35);text-shadow:0 1px 8px rgba(4,6,20,.65)}
+.day::before{content:"";position:absolute;left:22px;right:22px;top:0;height:2px;border-radius:2px;background:var(--spectrum);opacity:.85}
+.day-head{display:flex;align-items:baseline;justify-content:space-between;gap:6px 12px;flex-wrap:wrap}
+.day-head h3{margin:0;font-family:var(--font-display);font-weight:800;font-size:clamp(24px,3vw,30px);line-height:1.1}
+.day-date{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--y);white-space:nowrap}
+.day-meta{margin:6px 0 0;font-family:var(--font-mono);font-size:13px;color:var(--muted)}
+.tl{position:relative;height:10px;margin-top:16px;border-radius:5px;background:rgba(255,255,255,.07)}
+.tl i{position:absolute;top:0;bottom:0;border-radius:5px}
+.tl .now{position:absolute;top:-5px;bottom:-5px;width:2px;margin-left:-1px;border-radius:1px;background:#fff;box-shadow:0 0 10px #fff}
+.tl-scale{display:flex;justify-content:space-between;margin-top:6px;font-family:var(--font-mono);font-size:11px;color:var(--dim)}
+.slots{list-style:none;margin:8px 0 0;padding:0}
+.slot{position:relative;display:grid;grid-template-columns:86px minmax(0,1fr);gap:14px;padding:17px 0;border-bottom:1px dashed var(--line)}
+.slot:last-child{border-bottom:0;padding-bottom:4px}
+.t{font-family:var(--font-mono);font-weight:600;font-size:clamp(28px,3.4vw,34px);line-height:1;font-variant-numeric:tabular-nums;color:var(--sc,var(--ink));text-shadow:0 0 24px var(--sg,transparent);padding-top:2px}
+.t sup{font-size:.42em;line-height:1;vertical-align:top;margin-left:2px;position:relative;top:.1em}
+.b-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 10px}
+.slot h4{margin:0;font-size:clamp(18px,2.1vw,21px);font-weight:600;line-height:1.25}
+.meta{margin:5px 0 0;font-family:var(--font-mono);font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.desc{margin:8px 0 0;font-size:15px;color:#D7DCF5;max-width:52ch}
+.rooms{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:9px 14px}
+.rooms li{display:flex;align-items:center;gap:10px;font-size:15px;min-width:0}
+.rooms b{flex:none;min-width:52px;padding:4px 8px;text-align:center;font-family:var(--font-mono);font-weight:600;font-size:15px;border:1.5px solid var(--sc,var(--ink));color:var(--sc,var(--ink));border-radius:8px;font-variant-numeric:tabular-nums;background:rgba(255,255,255,.03)}
+.rooms li.aside b{border-style:dashed}
+.st{font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.st[data-k="now"]{background:var(--r);color:#fff;box-shadow:0 0 16px rgba(244,63,94,.55)}
+.st[data-k="next"]{background:rgba(34,211,238,.16);color:var(--c)}
+.st[data-k="past"]{border:1px solid var(--line);color:var(--dim)}
+.slot[data-state="now"]::before{content:"";position:absolute;left:-14px;top:14px;bottom:14px;width:3px;border-radius:2px;background:var(--sc);box-shadow:0 0 14px var(--sc)}
+.slot[data-state="past"] .t,.slot[data-state="past"] h4{opacity:.5}
+.legend{display:flex;align-items:center;gap:12px;margin:18px 0 0;font-size:14px;color:var(--muted);text-shadow:0 1px 10px rgba(0,0,0,.7)}
+.legend i{flex:none;width:64px;height:6px;border-radius:3px;background:var(--spectrum)}
+
+/* background scene bar */
+.scene-bar{position:fixed;z-index:5;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);
+  display:flex;align-items:center;gap:6px;max-width:calc(100% - 24px);padding:6px 6px 6px 14px;border-radius:999px;
+  background:rgba(9,12,34,.78);border:1px solid var(--line);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.4);overflow:hidden}
+.sb-text{display:flex;align-items:baseline;gap:8px;min-width:0;white-space:nowrap}
+.sb-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.sb-name{font-size:14.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.sb-formula{font-family:var(--font-math);font-size:13.5px;color:var(--y)}
+.sb-formula sub{font-size:.75em}
+@media (max-width:520px){.sb-formula{display:none}}
+.sb-btn{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.07);color:var(--ink);cursor:pointer}
+.sb-btn:hover{background:rgba(255,255,255,.14)}
+.sb-btn svg{width:16px;height:16px}
+.sb-text{margin-right:4px}
+@media (min-width:880px){.scene-bar{left:auto;transform:none;right:max(20px,env(safe-area-inset-right,0px))}}
+.sb-progress{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--spectrum);transform-origin:0 50%;transform:scaleX(0)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+
+<div class="page">
+  <header class="top wrap">
+    <p class="eyebrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" aria-hidden="true"><ellipse cx="12" cy="12" rx="10" ry="4" stroke="#8B5CF6"/><ellipse cx="12" cy="12" rx="10" ry="4" stroke="#22D3EE" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" stroke="#FDE047" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="2.2" fill="#F43F5E" stroke="none"/></svg>
+      Физика пәнінен олимпиада
+    </p>
+    <h1 class="wordmark">QWANT</h1>
+    <p class="lead">Екі күн: жеке кезең, Физ-бой және квиз.</p>
+  </header>
+
+  <main class="sched wrap" id="keste">
+    <div class="sched-head">
+      <h2>Күн тәртібі</h2>
+      <div class="status" id="status" aria-live="polite"><span class="dot" aria-hidden="true"></span><span id="status-text">1-күн 09:00-де тіркелуден басталады</span></div>
+    </div>
+
+    <div class="days">
+      <article class="day" data-day="1" aria-labelledby="d1">
+        <header class="day-head"><h3 id="d1">1-күн</h3><span class="day-date" data-date="day1" hidden></span></header>
+        <p class="day-meta">3 кезең · 09:00–13:30</p>
+        <div class="tl" aria-hidden="true"></div>
+        <div class="tl-scale" aria-hidden="true"><span>09</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span></div>
+        <ol class="slots">
+          <li class="slot" data-start="09:00" data-end="10:00">
+            <div class="t">09<sup>00</sup></div>
+            <div>
+              <div class="b-top"><h4>Тіркелу</h4><span class="st" hidden></span></div>
+              <p class="meta">09:00–10:00 · 60 мин</p>
+              <p class="desc">Қатысушылар тіркелу үстелінде белгіленеді.</p>
+            </div>
+          </li>
+          <li class="slot" data-start="10:00" data-end="10:20">
+            <div class="t">10<sup>00</sup></div>
+            <div>
+              <div class="b-top"><h4>Ашылуы</h4><span class="st" hidden></span></div>
+              <p class="meta">10:00–10:20 · 20 мин</p>
+            </div>
+          </li>
+          <li class="slot" data-start="10:30" data-end="13:30">
+            <div class="t">10<sup>30</sup></div>
+            <div>
+              <div class="b-top"><h4>1-кезең «Жеке»</h4><span class="st" hidden></span></div>
+              <p class="meta">10:30–13:30 · 3 сағ</p>
+              <ul class="rooms">
+                <li><b>113</b>11-сынып</li>
+                <li><b>114</b>10-сынып</li>
+                <li><b>115</b>9-сынып</li>
+                <li class="aside"><b>119</b>Жетекші мұғалімдер</li>
+                <li class="aside"><b>213</b>Коворкинг · қонақтар</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </article>
+
+      <article class="day" data-day="2" aria-labelledby="d2">
+        <header class="day-head"><h3 id="d2">2-күн</h3><span class="day-date" data-date="day2" hidden></span></header>
+        <p class="day-meta">4 кезең · 09:00–15:30</p>
+        <div class="tl" aria-hidden="true"></div>
+        <div class="tl-scale" aria-hidden="true"><span>09</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span></div>
+        <ol class="slots">
+          <li class="slot" data-start="09:00" data-end="13:00">
+            <div class="t">09<sup>00</sup></div>
+            <div>
+              <div class="b-top"><h4>Физ-бой</h4><span class="st" hidden></span></div>
+              <p class="meta">09:00–13:00 · 4 сағ</p>
+              <p class="desc">Алдымен қатысушылар екі топқа бөлінеді.</p>
+              <ul class="rooms">
+                <li><b>113</b>1-топ</li>
+                <li><b>114</b>2-топ</li>
+              </ul>
+            </div>
+          </li>
+          <li class="slot" data-start="13:00" data-end="14:00">
+            <div class="t">13<sup>00</sup></div>
+            <div>
+              <div class="b-top"><h4>Түскі ас</h4><span class="st" hidden></span></div>
+              <p class="meta">13:00–14:00 · 60 мин</p>
+            </div>
+          </li>
+          <li class="slot" data-start="14:00" data-end="15:30">
+            <div class="t">14<sup>00</sup></div>
+            <div>
+              <div class="b-top"><h4>Квиз</h4><span class="st" hidden></span></div>
+              <p class="meta">14:00–15:30 · 90 мин</p>
+            </div>
+          </li>
+          <li class="slot" data-start="15:30" data-end="16:00">
+            <div class="t">15<sup>30</sup></div>
+            <div>
+              <div class="b-top"><h4>Жабылуы</h4><span class="st" hidden></span></div>
+              <p class="meta">15:30</p>
+            </div>
+          </li>
+        </ol>
+      </article>
+    </div>
+    <p class="legend"><i aria-hidden="true"></i>Уақыттың түсі — жарық спектрі: 09:00 күлгін (400 нм), кешке қарай қызыл (680 нм).</p>
+  </main>
+</div>
+
+<div class="scene-bar" role="group" aria-label="Фондағы физикалық анимация">
+  <div class="sb-text"><span class="sb-label">Фонда</span><span class="sb-name" id="sb-name">Бор атомы</span><span class="sb-formula" id="sb-formula"></span></div>
+  <button type="button" class="sb-btn" id="sb-prev" aria-label="Алдыңғы анимация"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 5 8l5 5"/></svg></button>
+  <button type="button" class="sb-btn" id="sb-pause" aria-label="Анимацияны тоқтату" aria-pressed="false"><svg viewBox="0 0 16 16" fill="currentColor" id="sb-pause-ic"><rect x="3.5" y="3" width="3" height="10" rx="1"/><rect x="9.5" y="3" width="3" height="10" rx="1"/></svg></button>
+  <button type="button" class="sb-btn" id="sb-next" aria-label="Келесі анимация"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 3 5 5-5 5"/></svg></button>
+  <span class="sb-progress" id="sb-progress" aria-hidden="true"></span>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+/* ================================================================
+   ОЛИМПИАДА КҮНДЕРІ. Күндерді осылай жазыңыз: { day1: "2026-11-05", day2: "2026-11-06" }
+   Күндер жазылса, сайт «Қазір / Келесі» белгілерін және кері санақты өзі көрсетеді.
+   ================================================================ */
+const EVENT = { day1: "2026-10-27", day2: "2026-10-28" };
+const TZ = "+05:00";
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const pad = (n) => String(n).padStart(2, "0");
+const TAU = Math.PI * 2;
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- colour: visible spectrum ---------- */
+const STOPS = [[400, [139, 92, 246]], [450, [59, 130, 246]], [490, [34, 211, 238]], [530, [52, 211, 153]], [575, [253, 224, 71]], [610, [251, 146, 60]], [680, [244, 63, 94]]];
+function specNM(l) {
+  for (let i = 0; i < STOPS.length - 1; i++) {
+    const [l0, c0] = STOPS[i], [l1, c1] = STOPS[i + 1];
+    if (l <= l1) { const k = Math.max(0, (l - l0) / (l1 - l0)); return [c0[0] + (c1[0] - c0[0]) * k | 0, c0[1] + (c1[1] - c0[1]) * k | 0, c0[2] + (c1[2] - c0[2]) * k | 0]; }
+  }
+  return STOPS[STOPS.length - 1][1];
+}
+const spec = (t) => specNM(400 + 280 * Math.max(0, Math.min(1, t)));
+const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+function wl2rgb(wl) {
+  let r = 0, g = 0, b = 0;
+  if (wl < 440) { r = -(wl - 440) / 60; b = 1; } else if (wl < 490) { g = (wl - 440) / 50; b = 1; }
+  else if (wl < 510) { g = 1; b = -(wl - 510) / 20; } else if (wl < 580) { r = (wl - 510) / 70; g = 1; }
+  else if (wl < 645) { r = 1; g = -(wl - 645) / 65; } else { r = 1; }
+  const f = wl < 420 ? 0.3 + 0.7 * (wl - 380) / 40 : wl > 700 ? 0.3 + 0.7 * (780 - wl) / 80 : 1;
+  const c = (v) => Math.round(255 * Math.pow(Math.max(0, v * f), 0.8));
+  return [c(r), c(g), c(b)];
+}
+
+/* ================================================================
+   SCHEDULE
+   ================================================================ */
+const minutes = (hm) => { const [h, m] = hm.split(":").map(Number); return (h - 9) * 60 + m; };
+const timeRGB = (hm) => specNM(400 + 280 * minutes(hm) / 420);
+const SLOTS = $$(".slot").map((li) => ({
+  li, day: +li.closest(".day").dataset.day, start: li.dataset.start, end: li.dataset.end,
+  title: li.querySelector("h4").textContent, badge: li.querySelector(".st"),
+}));
+for (const s of SLOTS) {
+  const c = timeRGB(s.start);
+  s.li.style.setProperty("--sc", rgba(c, 1));
+  s.li.style.setProperty("--sg", rgba(c, 0.5));
+  const seg = document.createElement("i");
+  const a = minutes(s.start) / 420 * 100, b = minutes(s.end) / 420 * 100;
+  seg.style.left = a + "%"; seg.style.width = (b - a) + "%";
+  seg.style.background = `linear-gradient(90deg,${rgba(c, 1)},${rgba(timeRGB(s.end), 1)})`;
+  seg.style.boxShadow = `0 0 12px ${rgba(c, 0.5)}`;
+  s.li.closest(".day").querySelector(".tl").append(seg);
+}
+const KZ_WD = ["Жексенбі", "Дүйсенбі", "Сейсенбі", "Сәрсенбі", "Бейсенбі", "Жұма", "Сенбі"];
+const KZ_MON = ["қаңтар", "ақпан", "наурыз", "сәуір", "мамыр", "маусым", "шілде", "тамыз", "қыркүйек", "қазан", "қараша", "желтоқсан"];
+$$("[data-date]").forEach((el) => {
+  const d = EVENT[el.dataset.date];
+  if (!d) return;
+  const [y, m, dd] = d.split("-").map(Number);
+  el.textContent = `${dd} ${KZ_MON[m - 1]}, ${KZ_WD[new Date(Date.UTC(y, m - 1, dd)).getUTCDay()].toLowerCase()}`;
+  el.hidden = false;
+});
+const at = (day, hm) => { const d = EVENT["day" + day]; return d ? new Date(`${d}T${hm}:00${TZ}`).getTime() : null; };
+function span(ms) {
+  const s = Math.max(0, Math.floor(ms / 1000)), d = Math.floor(s / 86400), hh = Math.floor((s % 86400) / 3600), mm = Math.floor((s % 3600) / 60), ss = s % 60;
+  return d >= 1 ? `${d} күн ${hh} сағ` : `${pad(hh)}:${pad(mm)}:${pad(ss)}`;
+}
+function tick() {
+  if (!EVENT.day1 || !EVENT.day2) return;
+  const now = Date.now();
+  let cur = null, next = null;
+  for (const s of SLOTS) {
+    s.st = at(s.day, s.start); s.en = at(s.day, s.end);
+    if (now >= s.st && now < s.en) cur = s;
+    else if (s.st > now && (!next || s.st < next.st)) next = s;
+  }
+  for (const s of SLOTS) {
+    const k = s === cur ? "now" : s === next ? "next" : now >= s.en ? "past" : "";
+    s.li.dataset.state = k; s.badge.hidden = !k;
+    if (k) { s.badge.dataset.k = k; s.badge.textContent = k === "now" ? "Қазір" : k === "next" ? "Келесі" : "Өтті"; }
+  }
+  $$(".day").forEach((day) => {
+    const dn = +day.dataset.day, bar = day.querySelector(".tl"), d0 = at(dn, "09:00"), d1 = at(dn, "16:00");
+    let mk = bar.querySelector(".now");
+    if (now >= d0 && now <= d1) { if (!mk) { mk = document.createElement("span"); mk.className = "now"; bar.append(mk); } mk.style.left = ((now - d0) / (d1 - d0) * 100) + "%"; }
+    else if (mk) mk.remove();
+  });
+  const box = $("#status"), txt = $("#status-text");
+  if (now < SLOTS[0].st) { box.dataset.live = ""; txt.textContent = `Басталуына ${span(SLOTS[0].st - now)} қалды`; }
+  else if (cur) { box.dataset.live = "now"; txt.textContent = `Қазір: ${cur.title} · ${cur.start}–${cur.end}`; }
+  else if (next) { box.dataset.live = ""; txt.textContent = `Келесі: ${next.title} · ${next.day}-күн ${next.start} · ${span(next.st - now)} қалды`; }
+  else { box.dataset.live = ""; txt.textContent = "Олимпиада аяқталды. Қатысқандарыңызға рахмет!"; }
+}
+tick(); setInterval(tick, 1000);
+
+/* ================================================================
+   BACKGROUND: physics scenes on one canvas
+   ================================================================ */
+const cv = $("#bg"), ctx = cv.getContext("2d", { alpha: false });
+let W = 0, H = 0, DPR = 1, M = 1, m = 1, PORT = false, stars = null;
+const twinkles = [];
+
+function buildStars() {
+  stars = document.createElement("canvas");
+  stars.width = cv.width; stars.height = cv.height;
+  const s = stars.getContext("2d");
+  s.setTransform(DPR, 0, 0, DPR, 0, 0);
+  const g = s.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, "#080B22"); g.addColorStop(1, "#04050F");
+  s.fillStyle = g; s.fillRect(0, 0, W, H);
+  const neb = (x, y, r, c, a) => { const rg = s.createRadialGradient(x, y, 0, x, y, r); rg.addColorStop(0, `rgba(${c},${a})`); rg.addColorStop(1, `rgba(${c},0)`); s.fillStyle = rg; s.fillRect(0, 0, W, H); };
+  neb(W * 0.88, H * 0.08, M * 0.55, "139,92,246", 0.22);
+  neb(W * 0.04, H * 0.55, M * 0.45, "34,211,238", 0.10);
+  neb(W * 0.62, H * 1.02, M * 0.6, "244,63,94", 0.10);
+  const n = Math.round(W * H / 1700);
+  const tints = ["255,255,255", "200,215,255", "255,236,210", "190,240,255"];
+  for (let i = 0; i < n; i++) {
+    const big = Math.random() < 0.06;
+    s.fillStyle = `rgba(${tints[i % 4]},${(0.25 + Math.random() * 0.6).toFixed(2)})`;
+    s.beginPath(); s.arc(Math.random() * W, Math.random() * H, big ? 0.9 + Math.random() * 0.7 : 0.35 + Math.random() * 0.5, 0, TAU); s.fill();
+  }
+  twinkles.length = 0;
+  for (let i = 0; i < 36; i++) twinkles.push({ x: Math.random() * W, y: Math.random() * H, p: Math.random() * TAU, f: 0.6 + Math.random() * 1.4 });
+}
+
+/* sprites */
+function glowSprite(r, c, core) {
+  const s = document.createElement("canvas"); s.width = s.height = Math.ceil(r * 2);
+  const g = s.getContext("2d"), rg = g.createRadialGradient(r, r, 0, r, r, r);
+  rg.addColorStop(0, core || `rgba(${c},1)`); rg.addColorStop(0.18, `rgba(${c},0.55)`); rg.addColorStop(1, `rgba(${c},0)`);
+  g.fillStyle = rg; g.fillRect(0, 0, r * 2, r * 2); return s;
+}
+const SPR = {};
+function buildSprites() {
+  const k = Math.max(1, M / 900);
+  SPR.sun = glowSprite(150 * k, "255,170,70", "rgba(255,250,230,1)");
+  SPR.cyan = glowSprite(16, "34,211,238", "rgba(230,255,255,1)");
+  SPR.red = glowSprite(26, "244,63,94", "rgba(255,230,235,1)");
+  SPR.blue = glowSprite(26, "59,130,246", "rgba(225,235,255,1)");
+  SPR.yellow = glowSprite(14, "253,224,71", "rgba(255,255,235,1)");
+}
+const blit = (sp, x, y, sc = 1) => ctx.drawImage(sp, x - sp.width * sc / 2, y - sp.height * sc / 2, sp.width * sc, sp.height * sc);
+
+/* ---------- 1. Bohr atoms ---------- */
+const BALMER = { 3: 656.3, 4: 486.1, 5: 434.0, 6: 410.2 };
+const bohr = {
+  name: "Бор атомы", formula: "hν = E<sub>k</sub> − E<sub>2</sub>",
+  enter() {
+    const spots = PORT
+      ? [[0.72, 0.15, 0.44], [0.16, 0.6, 0.32], [0.86, 0.88, 0.22]]
+      : [[0.8, 0.14, 0.3], [0.05, 0.6, 0.22], [0.95, 0.86, 0.17]];
+    this.atoms = spots.map(([fx, fy, k], i) => ({ x: fx * W, y: fy * H, R: k * m, n: 2, from: 2, to: 2, phase: "rest", timer: 0.3 + i * 0.8, dur: 1, ang: Math.random() * TAU, spin: i % 2 ? -1 : 1 }));
+    this.ph = [];
+  },
+  rn(a, n) { return a.R * n * n / 36; },
+  curR(a) {
+    if (a.phase === "up" || a.phase === "down") {
+      const p = Math.min(1, Math.max(0, 1 - a.timer / a.dur)), e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      return this.rn(a, a.from) + (this.rn(a, a.to) - this.rn(a, a.from)) * e;
+    }
+    return this.rn(a, a.n);
+  },
+  update(dt) {
+    for (const a of this.atoms) {
+      a.timer -= dt;
+      const nEff = Math.max(1, Math.sqrt(this.curR(a) * 36 / a.R));
+      a.ang += a.spin * (2.8 / Math.pow(nEff, 1.5)) * dt;
+      if (a.timer <= 0) {
+        if (a.phase === "rest") { a.from = 2; a.to = 3 + (Math.random() * 4 | 0); a.phase = "up"; a.timer = a.dur = 0.55; }
+        else if (a.phase === "up") { a.n = a.to; a.phase = "high"; a.timer = 0.9 + Math.random() * 0.8; }
+        else if (a.phase === "high") {
+          const k = a.n; a.from = k; a.to = 2; a.phase = "down"; a.timer = a.dur = 0.25;
+          this.ph.push({ x: a.x, y: a.y, ang: a.ang, r0: this.rn(a, k), d: 0, nm: BALMER[k] });
+        } else { a.n = 2; a.phase = "rest"; a.timer = 0.6 + Math.random() * 1.2; }
+      }
+    }
+    for (const p of this.ph) p.d += 300 * dt;
+    this.ph = this.ph.filter((p) => p.r0 + p.d - 110 < M * 1.2);
+  },
+  draw(A) {
+    for (const a of this.atoms) {
+      const r = this.curR(a);
+      for (let n = 1; n <= 6; n++) {
+        const rr = this.rn(a, n), on = Math.abs(rr - r) < 0.5 && a.phase !== "up" && a.phase !== "down";
+        ctx.globalAlpha = A * (on ? 0.95 : 0.55);
+        ctx.strokeStyle = on ? "#22D3EE" : rgba(spec((n - 1) / 5), 1);
+        ctx.lineWidth = on ? 1.8 : 1.2;
+        ctx.setLineDash(n === 2 || on ? [] : [3, 5]);
+        ctx.beginPath(); ctx.arc(a.x, a.y, rr, 0, TAU); ctx.stroke();
+      }
+      ctx.setLineDash([]);
+      ctx.globalCompositeOperation = "lighter";
+      ctx.globalAlpha = A; blit(SPR.red, a.x, a.y, Math.max(0.7, a.R / 200));
+      const ex = a.x + Math.cos(a.ang) * r, ey = a.y + Math.sin(a.ang) * r;
+      blit(SPR.cyan, ex, ey, 1.5);
+      ctx.globalCompositeOperation = "source-over";
+    }
+    ctx.globalCompositeOperation = "lighter";
+    for (const p of this.ph) {
+      const [R, G, B] = wl2rgb(p.nm), lam = p.nm / 22, L = 110, Amp = 8;
+      const ux = Math.cos(p.ang), uy = Math.sin(p.ang), vx = -uy, vy = ux;
+      ctx.beginPath(); let st = false;
+      for (let s = 0; s <= L; s += 2) {
+        const rad = p.r0 + p.d - L + s; if (rad < p.r0) continue;
+        const off = Amp * Math.sin(Math.PI * s / L) * Math.sin(TAU * s / lam);
+        const x = p.x + ux * rad + vx * off, y = p.y + uy * rad + vy * off;
+        if (!st) { ctx.moveTo(x, y); st = true; } else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = `rgb(${R},${G},${B})`;
+      ctx.globalAlpha = A * 0.28; ctx.lineWidth = 6; ctx.stroke();
+      ctx.globalAlpha = A; ctx.lineWidth = 1.8; ctx.stroke();
+    }
+    ctx.globalCompositeOperation = "source-over";
+  },
+};
+
+/* ---------- 2. Kepler orbits ---------- */
+function keplerE(Mn, e) { let E = e < 0.8 ? Mn : Math.PI; for (let i = 0; i < 10; i++) E -= (E - e * Math.sin(E) - Mn) / (1 - e * Math.cos(E)); return E; }
+const kepler = {
+  name: "Кеплер заңдары", formula: "T² / a³ = const",
+  enter() {
+    this.sun = PORT ? { x: W * 0.5, y: H * 0.46 } : { x: W * 0.74, y: H * 0.15 };
+    const Ts = [5, 9, 15, 24], amax = M * (PORT ? 0.5 : 0.36);
+    this.bodies = Ts.map((T, i) => ({ T, e: [0.1, 0.2, 0.16, 0.25][i], om: [0.5, 2.2, 4.1, 5.4][i], a: amax * Math.pow(T / 24, 2 / 3), col: spec([0.36, 0.55, 0.75, 0.95][i]), r: [3, 4.2, 5.2, 4.2][i], t0: Math.random() * T }));
+    this.comet = { T: 18, e: 0.86, om: PORT ? -1.2 : -0.6, a: amax * 0.82, t0: 18 * 0.7 };
+    this.t = 0;
+  },
+  pos(b, t) {
+    const E = keplerE(TAU * ((((t + b.t0) / b.T) % 1 + 1) % 1), b.e);
+    const x = b.a * (Math.cos(E) - b.e), y = b.a * Math.sqrt(1 - b.e * b.e) * Math.sin(E), c = Math.cos(b.om), s = Math.sin(b.om);
+    return [this.sun.x + x * c - y * s, this.sun.y + x * s + y * c];
+  },
+  update(dt) { this.t += dt; },
+  draw(A) {
+    const all = [...this.bodies, this.comet];
+    ctx.lineWidth = 1;
+    for (const b of all) {
+      const c = Math.cos(b.om), s = Math.sin(b.om), cx = this.sun.x - b.a * b.e * c, cy = this.sun.y - b.a * b.e * s;
+      ctx.globalAlpha = A * 0.22; ctx.strokeStyle = b === this.comet ? "#C3CDEB" : rgba(b.col, 1);
+      ctx.beginPath(); ctx.ellipse(cx, cy, b.a, b.a * Math.sqrt(1 - b.e * b.e), b.om, 0, TAU); ctx.stroke();
+    }
+    // equal areas swept by the comet (second law)
+    const cm = this.comet, sw = 1.1;
+    ctx.globalAlpha = A * 0.14; ctx.fillStyle = "#FDE047";
+    ctx.beginPath(); ctx.moveTo(this.sun.x, this.sun.y);
+    for (let k = 0; k <= 20; k++) { const [x, y] = this.pos(cm, this.t - sw + sw * k / 20); ctx.lineTo(x, y); }
+    ctx.closePath(); ctx.fill();
+    // trails
+    ctx.globalCompositeOperation = "lighter";
+    for (const b of this.bodies) {
+      const n = 34, span = b.T * 0.32;
+      let prev = this.pos(b, this.t - span);
+      for (let k = 1; k <= n; k++) {
+        const p = this.pos(b, this.t - span + span * k / n);
+        ctx.globalAlpha = A * 0.85 * Math.pow(k / n, 1.6); ctx.strokeStyle = rgba(b.col, 1); ctx.lineWidth = b.r * 0.8;
+        ctx.beginPath(); ctx.moveTo(prev[0], prev[1]); ctx.lineTo(p[0], p[1]); ctx.stroke(); prev = p;
+      }
+      const [x, y] = this.pos(b, this.t);
+      ctx.globalAlpha = A; ctx.fillStyle = rgba(b.col, 1); ctx.beginPath(); ctx.arc(x, y, b.r, 0, TAU); ctx.fill();
+      ctx.globalAlpha = A * 0.35; ctx.beginPath(); ctx.arc(x, y, b.r * 3, 0, TAU); ctx.fill();
+    }
+    // comet with tail pointing away from the sun
+    const [qx, qy] = this.pos(cm, this.t), dx = qx - this.sun.x, dy = qy - this.sun.y, d = Math.hypot(dx, dy) || 1;
+    const tl = Math.min(M * 0.22, M * 0.035 * (cm.a / d) * 3);
+    const tg = ctx.createLinearGradient(qx, qy, qx + dx / d * tl, qy + dy / d * tl);
+    tg.addColorStop(0, "rgba(200,240,255,0.9)"); tg.addColorStop(1, "rgba(120,180,255,0)");
+    ctx.globalAlpha = A; ctx.strokeStyle = tg; ctx.lineWidth = 5; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(qx, qy); ctx.lineTo(qx + dx / d * tl, qy + dy / d * tl); ctx.stroke(); ctx.lineCap = "butt";
+    blit(SPR.cyan, qx, qy, 1);
+    ctx.globalAlpha = A; blit(SPR.sun, this.sun.x, this.sun.y, 1);
+    ctx.globalCompositeOperation = "source-over";
+  },
+};
+
+/* ---------- 3. Two-source interference ---------- */
+const interf = {
+  name: "Толқын интерференциясы", formula: "Δd = kλ",
+  enter() {
+    this.cell = W < 700 ? 6 : 7;
+    this.cw = Math.ceil(W / this.cell); this.ch = Math.ceil(H / this.cell);
+    this.off = document.createElement("canvas"); this.off.width = this.cw; this.off.height = this.ch;
+    this.octx = this.off.getContext("2d"); this.img = this.octx.createImageData(this.cw, this.ch);
+    this.t = 0; this.lam = m * 0.075;
+  },
+  update(dt) { this.t += dt; },
+  draw(A) {
+    const d = (0.2 + 0.08 * Math.sin(this.t * 0.4)) * m, cell = this.cell;
+    const S = PORT ? [[W / 2 - d / 2, H * 0.05], [W / 2 + d / 2, H * 0.05]] : [[W * 0.08, H / 2 - d / 2], [W * 0.08, H / 2 + d / 2]];
+    const k = TAU / this.lam, ph = this.t * TAU * 0.75, L0 = m * 0.3, data = this.img.data;
+    let q = 0;
+    for (let j = 0; j < this.ch; j++) {
+      const y = (j + 0.5) * cell, dy1 = y - S[0][1], dy2 = y - S[1][1];
+      for (let i = 0; i < this.cw; i++, q += 4) {
+        const x = (i + 0.5) * cell, dx1 = x - S[0][0], dx2 = x - S[1][0];
+        const r1 = Math.sqrt(dx1 * dx1 + dy1 * dy1), r2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+        let v = (Math.cos(k * r1 - ph) / Math.sqrt(1 + r1 / L0) + Math.cos(k * r2 - ph) / Math.sqrt(1 + r2 / L0)) * 0.8;
+        if (v > 1) v = 1; else if (v < -1) v = -1;
+        if (v >= 0) { data[q] = 34 + 150 * v * v; data[q + 1] = 211 + 40 * v * v; data[q + 2] = 238; data[q + 3] = 200 * Math.pow(v, 1.15); }
+        else { data[q] = 139; data[q + 1] = 92; data[q + 2] = 246; data[q + 3] = 170 * Math.pow(-v, 1.15); }
+      }
+    }
+    this.octx.putImageData(this.img, 0, 0);
+    ctx.globalAlpha = A * 0.72; ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(this.off, 0, 0, this.cw * cell, this.ch * cell);
+    ctx.globalCompositeOperation = "lighter"; ctx.globalAlpha = A;
+    for (const [x, y] of S) blit(SPR.yellow, x, y, 1.4);
+    ctx.globalCompositeOperation = "source-over";
+  },
+};
+
+/* ---------- 4. Electric field lines ---------- */
+const field = {
+  name: "Электр өрісі", formula: "E = k·q / r²",
+  enter() { this.t = 0; this.lines = []; this.Q = null; },
+  charges() {
+    const t = this.t, cx = W / 2, cy = H / 2, R = m * (0.3 + 0.04 * Math.sin(t * 0.5)), th = t * 0.14;
+    const sx = PORT ? 1 : W / m * 0.8, sy = PORT ? H / m * 0.75 : 1;
+    return [0, 1, 2, 3].map((i) => ({ x: cx + R * sx * Math.cos(th + i * Math.PI / 2), y: cy + R * sy * Math.sin(th + i * Math.PI / 2), q: i % 2 ? -1 : 1 }));
+  },
+  update(dt) {
+    this.t += dt;
+    const Q = this.charges(), N = 15, step = W < 700 ? 6 : 5, maxS = Math.min(1400, Math.ceil((W + H) / step * 1.1));
+    const E = (x, y) => { let ex = 0, ey = 0; for (const c of Q) { const dx = x - c.x, dy = y - c.y, r2 = dx * dx + dy * dy + 30, f = c.q / (r2 * Math.sqrt(r2)); ex += f * dx; ey += f * dy; } return [ex, ey]; };
+    this.Q = Q; this.lines = [];
+    for (const c of Q) {
+      if (c.q < 0) continue;
+      for (let i = 0; i < N; i++) {
+        const a = (i + 0.5) / N * TAU + this.t * 0.05;
+        let x = c.x + 14 * Math.cos(a), y = c.y + 14 * Math.sin(a);
+        const pts = [x, y];
+        for (let k = 0; k < maxS; k++) {
+          let [ex, ey] = E(x, y), mg = Math.hypot(ex, ey) || 1;
+          const mx = x + ex / mg * step / 2, my = y + ey / mg * step / 2;
+          [ex, ey] = E(mx, my); mg = Math.hypot(ex, ey) || 1;
+          x += ex / mg * step; y += ey / mg * step; pts.push(x, y);
+          if (x < -40 || y < -40 || x > W + 40 || y > H + 40) break;
+          let hit = false; for (const d of Q) if (d.q < 0 && Math.abs(x - d.x) < 12 && Math.abs(y - d.y) < 12) { hit = true; break; }
+          if (hit) break;
+        }
+        this.lines.push(pts);
+      }
+    }
+  },
+  draw(A) {
+    if (!this.Q) this.update(0);
+    this.lines.forEach((p, li) => {
+      ctx.globalAlpha = A * 0.34; ctx.strokeStyle = rgba(spec((li % 15) / 14), 1); ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(p[0], p[1]); for (let i = 2; i < p.length; i += 2) ctx.lineTo(p[i], p[i + 1]); ctx.stroke();
+    });
+    ctx.globalCompositeOperation = "lighter";
+    const gap = 16, off = Math.floor((this.t * 14) % gap);
+    this.lines.forEach((p, li) => {
+      ctx.globalAlpha = A * 0.95; ctx.fillStyle = rgba(spec((li % 15) / 14), 1);
+      for (let i = off; i < p.length / 2; i += gap) ctx.fillRect(p[2 * i] - 1.3, p[2 * i + 1] - 1.3, 2.6, 2.6);
+    });
+    ctx.globalAlpha = A;
+    for (const c of this.Q) blit(c.q > 0 ? SPR.red : SPR.blue, c.x, c.y, 1.6);
+    ctx.globalCompositeOperation = "source-over";
+    ctx.globalAlpha = A; ctx.fillStyle = "#fff";
+    for (const c of this.Q) { ctx.fillRect(c.x - 5, c.y - 1.1, 10, 2.2); if (c.q > 0) ctx.fillRect(c.x - 1.1, c.y - 5, 2.2, 10); }
+  },
+};
+
+/* ---------- 5. Chladni figures ---------- */
+const chladni = {
+  name: "Хладни фигуралары", formula: "f ~ n² + m²",
+  modes: [[3, 5], [4, 7], [2, 7], [5, 8], [3, 7], [1, 6]],
+  enter() {
+    const S = M;
+    this.N = Math.max(3000, Math.min(12000, Math.round(S * S / 120)));
+    this.x = new Float32Array(this.N); this.y = new Float32Array(this.N); this.b = new Uint8Array(this.N);
+    for (let i = 0; i < this.N; i++) { this.x[i] = Math.random(); this.y[i] = Math.random(); }
+    this.mi = Math.random() * this.modes.length | 0; this.mt = 0; this.kick = 1;
+    this.lut = Array.from({ length: 12 }, (_, i) => spec(i / 11));
+    this.ow = Math.ceil(W / 2); this.oh = Math.ceil(H / 2);
+    this.off = document.createElement("canvas"); this.off.width = this.ow; this.off.height = this.oh;
+    this.octx = this.off.getContext("2d"); this.img = this.octx.createImageData(this.ow, this.oh);
+  },
+  update(dt) {
+    this.mt += dt;
+    if (this.mt > 4.8) { this.mt = 0; this.mi = (this.mi + 1) % this.modes.length; this.kick = 1.8; }
+    this.kick = Math.max(1, this.kick - dt * 0.5);
+    const [n, mm] = this.modes[this.mi], s = 0.011 * this.kick * Math.min(2, dt * 30), PI = Math.PI;
+    const X = this.x, Y = this.y;
+    for (let i = 0; i < this.N; i++) {
+      const x = X[i], y = Y[i];
+      const a = Math.abs(Math.cos(n * PI * x) * Math.cos(mm * PI * y) - Math.cos(mm * PI * x) * Math.cos(n * PI * y));
+      let nx = x + (Math.random() + Math.random() - 1) * 1.6 * s * a + (Math.random() - 0.5) * 0.0009;
+      let ny = y + (Math.random() + Math.random() - 1) * 1.6 * s * a + (Math.random() - 0.5) * 0.0009;
+      if (nx < 0) nx = -nx; else if (nx > 1) nx = 2 - nx;
+      if (ny < 0) ny = -ny; else if (ny > 1) ny = 2 - ny;
+      X[i] = nx; Y[i] = ny;
+      const r = Math.sqrt((nx - 0.5) * (nx - 0.5) + (ny - 0.5) * (ny - 0.5)) / 0.7072;
+      this.b[i] = Math.min(11, r * 12 | 0);
+    }
+  },
+  draw(A) {
+    // grains are splatted into a half-resolution pixel buffer, then scaled up once
+    const S = M / 2, ox = (W / 2 - S) / 2, oy = (H / 2 - S) / 2, ow = this.ow, oh = this.oh, d = this.img.data;
+    d.fill(0);
+    for (let i = 0; i < this.N; i++) {
+      const px = (ox + this.x[i] * S) | 0, py = (oy + this.y[i] * S) | 0;
+      if (px < 0 || py < 0 || px >= ow || py >= oh) continue;
+      const k = (py * ow + px) * 4, c = this.lut[this.b[i]];
+      d[k] += c[0] * 0.85; d[k + 1] += c[1] * 0.85; d[k + 2] += c[2] * 0.85; d[k + 3] += 210;
+    }
+    this.octx.putImageData(this.img, 0, 0);
+    ctx.globalCompositeOperation = "lighter"; ctx.globalAlpha = A; ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(this.off, 0, 0, ow * 2, oh * 2);
+    ctx.globalCompositeOperation = "source-over";
+  },
+};
+
+/* ---------- 6. Dispersion in a prism ---------- */
+const prism = {
+  name: "Жарық дисперсиясы", formula: "n(λ) = A + B / λ²",
+  lams: Array.from({ length: 26 }, (_, i) => 405 + i * 11.6),
+  nl: (l) => 1.62 + 30000 / (l * l),
+  enter() {
+    this.t = 0;
+    this.C = PORT ? [W * 0.4, H * 0.34] : [W * 0.3, H * 0.42];
+    this.S = PORT ? W * 0.62 : m * 0.5;
+    this.cols = this.lams.map((l) => wl2rgb(l));
+    const P = this.tri(0), N = this.outward(P[2], P[0], P), inw = [-N[0], -N[1]];
+    const i0 = Math.asin(this.nl(550) * 0.5), ang = Math.atan2(inw[1], inw[0]) - i0;
+    this.din = [Math.cos(ang), Math.sin(ang)];
+    const e = [(P[2][0] + P[0][0]) / 2, (P[2][1] + P[0][1]) / 2];
+    this.src = [e[0] - this.din[0] * M * 1.5, e[1] - this.din[1] * M * 1.5];
+  },
+  tri(phi) {
+    const h = this.S * Math.sqrt(3) / 2, c = Math.cos(phi), s = Math.sin(phi);
+    return [[0, -2 / 3 * h], [this.S / 2, h / 3], [-this.S / 2, h / 3]].map(([x, y]) => [this.C[0] + x * c - y * s, this.C[1] + x * s + y * c]);
+  },
+  outward(a, b, P) {
+    const ex = b[0] - a[0], ey = b[1] - a[1], L = Math.hypot(ex, ey); let n = [ey / L, -ex / L];
+    const mx = (a[0] + b[0]) / 2 - (P[0][0] + P[1][0] + P[2][0]) / 3, my = (a[1] + b[1]) / 2 - (P[0][1] + P[1][1] + P[2][1]) / 3;
+    return n[0] * mx + n[1] * my > 0 ? n : [-n[0], -n[1]];
+  },
+  hit(o, d, a, b) {
+    const ex = b[0] - a[0], ey = b[1] - a[1], det = d[0] * -ey - (-ex) * d[1];
+    if (Math.abs(det) < 1e-9) return null;
+    const rx = a[0] - o[0], ry = a[1] - o[1], t = (rx * -ey - (-ex) * ry) / det, s = (d[0] * ry - d[1] * rx) / det;
+    return t > 1e-6 && s >= 0 && s <= 1 ? t : null;
+  },
+  refract(d, N, eta) {
+    const ci = -(N[0] * d[0] + N[1] * d[1]), k = 1 - eta * eta * (1 - ci * ci);
+    if (k < 0) return null;
+    const f = eta * ci - Math.sqrt(k), x = eta * d[0] + f * N[0], y = eta * d[1] + f * N[1], L = Math.hypot(x, y);
+    return [x / L, y / L];
+  },
+  trace(P, n) {
+    const E = [[P[0], P[1]], [P[1], P[2]], [P[2], P[0]]];
+    let best = null;
+    E.forEach(([a, b], i) => { const t = this.hit(this.src, this.din, a, b); if (t !== null && (!best || t < best[0])) best = [t, i]; });
+    if (!best) return null;
+    const p1 = [this.src[0] + this.din[0] * best[0], this.src[1] + this.din[1] * best[0]];
+    const d1 = this.refract(this.din, this.outward(E[best[1]][0], E[best[1]][1], P), 1 / n); if (!d1) return null;
+    let b2 = null;
+    E.forEach(([a, b], i) => { if (i === best[1]) return; const t = this.hit(p1, d1, a, b); if (t !== null && (!b2 || t < b2[0])) b2 = [t, i]; });
+    if (!b2) return null;
+    const p2 = [p1[0] + d1[0] * b2[0], p1[1] + d1[1] * b2[0]], o = this.outward(E[b2[1]][0], E[b2[1]][1], P);
+    const d2 = this.refract(d1, [-o[0], -o[1]], n); if (!d2) return null;
+    return [p1, p2, [p2[0] + d2[0] * M * 1.6, p2[1] + d2[1] * M * 1.6]];
+  },
+  update(dt) { this.t += dt; },
+  draw(A) {
+    const P = this.tri(0.06 * Math.sin(this.t * 0.35));
+    const rays = this.lams.map((l) => this.trace(P, this.nl(l)));
+    const g = ctx.createLinearGradient(P[0][0], P[0][1], P[1][0], P[1][1]);
+    g.addColorStop(0, "rgba(150,180,255,0.16)"); g.addColorStop(1, "rgba(150,180,255,0.05)");
+    ctx.globalAlpha = A; ctx.fillStyle = g; ctx.strokeStyle = "rgba(175,200,255,0.6)"; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(P[0][0], P[0][1]); ctx.lineTo(P[1][0], P[1][1]); ctx.lineTo(P[2][0], P[2][1]); ctx.closePath(); ctx.fill(); ctx.stroke();
+    const r0 = rays.find(Boolean); if (!r0) return;
+    ctx.globalCompositeOperation = "lighter";
+    for (const [w, a] of [[9, 0.1], [4, 0.35], [1.6, 1]]) {
+      ctx.globalAlpha = A * a; ctx.strokeStyle = "#FFFFFF"; ctx.lineWidth = w;
+      ctx.beginPath(); ctx.moveTo(this.src[0], this.src[1]); ctx.lineTo(r0[0][0], r0[0][1]); ctx.stroke();
+    }
+    rays.forEach((r, i) => {
+      if (!r) return; const [R, G, B] = this.cols[i];
+      ctx.strokeStyle = `rgb(${R},${G},${B})`;
+      ctx.globalAlpha = A * 0.22; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(r[0][0], r[0][1]); ctx.lineTo(r[1][0], r[1][1]); ctx.stroke();
+      ctx.globalAlpha = A * 0.5; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(r[1][0], r[1][1]); ctx.lineTo(r[2][0], r[2][1]); ctx.stroke();
+      // light pulses: slower inside the glass (v = c / n)
+      const n = this.nl(this.lams[i]), Lin = Math.hypot(r[1][0] - r[0][0], r[1][1] - r[0][1]), Lout = M * 1.6, sp = 240, gap = 150;
+      ctx.globalAlpha = A; ctx.fillStyle = `rgb(${Math.min(255, R + 60)},${Math.min(255, G + 60)},${Math.min(255, B + 60)})`;
+      for (let s0 = (this.t * sp) % gap; s0 < Lout; s0 += gap) {
+        const f = s0 / Lout; ctx.fillRect(r[1][0] + (r[2][0] - r[1][0]) * f - 1.4, r[1][1] + (r[2][1] - r[1][1]) * f - 1.4, 2.8, 2.8);
+      }
+      for (let s0 = (this.t * sp / n) % (gap / n); s0 < Lin; s0 += gap / n) {
+        const f = s0 / Lin; ctx.fillRect(r[0][0] + (r[1][0] - r[0][0]) * f - 1, r[0][1] + (r[1][1] - r[0][1]) * f - 1, 2, 2);
+      }
+    });
+    ctx.globalCompositeOperation = "source-over";
+  },
+};
+
+/* ---------- 7. Brownian motion ---------- */
+const brown = {
+  name: "Броун қозғалысы", formula: "⟨x²⟩ = 2Dt",
+  enter() {
+    this.N = Math.max(90, Math.min(260, Math.round(W * H / 5500)));
+    const gauss = () => (Math.random() + Math.random() + Math.random() + Math.random() - 2) * 1.22;
+    this.p = Array.from({ length: this.N }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: gauss() * 125, vy: gauss() * 125 }));
+    const spots = PORT ? [[0.78, 0.09], [0.12, 0.5], [0.85, 0.82]] : [[0.72, 0.13], [0.05, 0.55], [0.95, 0.8]];
+    const r = Math.max(13, m * 0.036);
+    this.G = spots.map(([fx, fy]) => ({ x: fx * W, y: fy * H, vx: 0, vy: 0, r, M: 26, trail: [] }));
+    this.tt = 0;
+  },
+  update(dt) {
+    const n = 2, h = dt / n;
+    for (let s = 0; s < n; s++) {
+      for (const q of this.p) {
+        q.x += q.vx * h; q.y += q.vy * h;
+        if (q.x < 0) { q.x = -q.x; q.vx = -q.vx; } else if (q.x > W) { q.x = 2 * W - q.x; q.vx = -q.vx; }
+        if (q.y < 0) { q.y = -q.y; q.vy = -q.vy; } else if (q.y > H) { q.y = 2 * H - q.y; q.vy = -q.vy; }
+        for (const B of this.G) {
+          const dx = q.x - B.x, dy = q.y - B.y, R = B.r + 2.5;
+          if (dx * dx + dy * dy >= R * R) continue;
+          const d = Math.hypot(dx, dy) || 1e-3, nx = dx / d, ny = dy / d, vr = (q.vx - B.vx) * nx + (q.vy - B.vy) * ny;
+          if (vr < 0) { const j = -2 * vr / (1 + 1 / B.M); q.vx += j * nx; q.vy += j * ny; B.vx -= j / B.M * nx; B.vy -= j / B.M * ny; }
+          q.x = B.x + nx * R; q.y = B.y + ny * R;
+        }
+      }
+      for (const B of this.G) {
+        B.x += B.vx * h; B.y += B.vy * h;
+        if (B.x < B.r || B.x > W - B.r) { B.vx = -B.vx; B.x = Math.max(B.r, Math.min(W - B.r, B.x)); }
+        if (B.y < B.r || B.y > H - B.r) { B.vy = -B.vy; B.y = Math.max(B.r, Math.min(H - B.r, B.y)); }
+      }
+    }
+    this.tt += dt;
+    if (this.tt > 0.05) { this.tt = 0; for (const B of this.G) { B.trail.push(B.x, B.y); if (B.trail.length > 700) B.trail.splice(0, 2); } }
+  },
+  draw(A) {
+    ctx.lineWidth = 2; ctx.lineJoin = "round";
+    for (const B of this.G) {
+      const T = B.trail, n = T.length / 2;
+      for (let i = 1; i < n; i++) {
+        ctx.globalAlpha = A * (0.2 + 0.7 * i / n); ctx.strokeStyle = rgba(spec(i / n), 1);
+        ctx.beginPath(); ctx.moveTo(T[2 * i - 2], T[2 * i - 1]); ctx.lineTo(T[2 * i], T[2 * i + 1]); ctx.stroke();
+      }
+    }
+    ctx.globalCompositeOperation = "lighter";
+    for (const q of this.p) {
+      const v = Math.hypot(q.vx, q.vy);
+      ctx.globalAlpha = A; ctx.fillStyle = rgba(spec(Math.min(1, v / 330)), 1);
+      ctx.beginPath(); ctx.arc(q.x, q.y, 2.6, 0, TAU); ctx.fill();
+    }
+    ctx.globalCompositeOperation = "source-over";
+    for (const B of this.G) {
+      const g = ctx.createRadialGradient(B.x - B.r * 0.35, B.y - B.r * 0.35, B.r * 0.1, B.x, B.y, B.r);
+      g.addColorStop(0, "#FFF6C8"); g.addColorStop(0.45, "#FDE047"); g.addColorStop(1, "#FB923C");
+      ctx.globalAlpha = A; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(B.x, B.y, B.r, 0, TAU); ctx.fill();
+      ctx.globalCompositeOperation = "lighter"; blit(SPR.yellow, B.x, B.y, B.r / 5); ctx.globalCompositeOperation = "source-over";
+    }
+  },
+};
+
+/* ---------- scene manager ---------- */
+const SCENES = [bohr, kepler, interf, field, chladni, prism, brown];
+const DUR = 16, FADE = 1.8;
+let cur = Math.random() * SCENES.length | 0, nxt = -1, fade = 0, sceneT = 0, paused = false, raf = 0, last = 0;
+
+function sizeCanvas() {
+  W = cv.clientWidth || innerWidth; H = cv.clientHeight || innerHeight;
+  DPR = Math.min(window.devicePixelRatio || 1, 1.5, Math.sqrt(3.2e6 / (W * H)));
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  M = Math.max(W, H); m = Math.min(W, H); PORT = H > W * 1.1;
+  buildStars(); buildSprites();
+}
+function settle(s) { for (let i = 0; i < 100; i++) s.update(1 / 30); }
+function setBar(i) {
+  $("#sb-name").textContent = SCENES[i].name;
+  $("#sb-formula").innerHTML = SCENES[i].formula;
+}
+function render(now) {
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
+  ctx.drawImage(stars, 0, 0, W, H);
+  ctx.fillStyle = "#fff";
+  for (const s of twinkles) { ctx.globalAlpha = 0.25 + 0.6 * Math.max(0, Math.sin(now / 1000 * s.f + s.p)); ctx.fillRect(s.x - 0.8, s.y - 0.8, 1.6, 1.6); }
+  const e = fade < 0.5 ? 2 * fade * fade : 1 - Math.pow(-2 * fade + 2, 2) / 2;
+  SCENES[cur].draw(nxt >= 0 ? 1 - e : 1);
+  if (nxt >= 0) SCENES[nxt].draw(e);
+  ctx.globalAlpha = 1;
+}
+function go(i) {
+  if (nxt >= 0) { cur = nxt; nxt = -1; }
+  i = (i + SCENES.length) % SCENES.length;
+  if (i === cur) return;
+  SCENES[i].enter(); sceneT = 0; setBar(i);
+  if (reduced || paused) { cur = i; settle(SCENES[cur]); render(performance.now()); return; }
+  nxt = i; fade = 0;
+}
+function loop(now) {
+  raf = requestAnimationFrame(loop);
+  if (now - last < 1000 / 45) return;
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  sceneT += dt;
+  $("#sb-progress").style.transform = `scaleX(${Math.min(1, sceneT / DUR)})`;
+  if (nxt < 0 && sceneT > DUR) go(cur + 1);
+  if (nxt >= 0) { fade += dt / FADE; if (fade >= 1) { cur = nxt; nxt = -1; fade = 0; } }
+  SCENES[cur].update(dt); if (nxt >= 0) SCENES[nxt].update(dt);
+  render(now);
+}
+function start() { if (!raf && !paused && !reduced && !document.hidden) { last = performance.now(); raf = requestAnimationFrame(loop); } }
+function stop() { cancelAnimationFrame(raf); raf = 0; }
+
+sizeCanvas();
+SCENES[cur].enter(); setBar(cur);
+if (reduced) { settle(SCENES[cur]); render(0); $("#sb-pause").hidden = true; } else start();
+
+let rz = 0, lastW = W, lastH = H;
+addEventListener("resize", () => {
+  clearTimeout(rz);
+  rz = setTimeout(() => {
+    const w = cv.clientWidth, h = cv.clientHeight;
+    if (w === lastW && Math.abs(h - lastH) < 140) return;
+    lastW = w; lastH = h; sizeCanvas();
+    SCENES[cur].enter(); if (reduced || paused) settle(SCENES[cur]);
+    if (nxt >= 0) SCENES[nxt].enter();
+    render(performance.now());
+  }, 160);
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden) stop(); else start(); });
+$("#sb-next").addEventListener("click", () => go((nxt >= 0 ? nxt : cur) + 1));
+$("#sb-prev").addEventListener("click", () => go((nxt >= 0 ? nxt : cur) - 1));
+$("#sb-pause").addEventListener("click", (e) => {
+  paused = !paused;
+  const b = e.currentTarget;
+  b.setAttribute("aria-pressed", String(paused));
+  b.setAttribute("aria-label", paused ? "Анимацияны жалғастыру" : "Анимацияны тоқтату");
+  $("#sb-pause-ic").innerHTML = paused ? '<path d="M4.5 2.8v10.4L13 8z"/>' : '<rect x="3.5" y="3" width="3" height="10" rx="1"/><rect x="9.5" y="3" width="3" height="10" rx="1"/>';
+  if (paused) { stop(); if (nxt >= 0) { cur = nxt; nxt = -1; fade = 0; render(performance.now()); } } else start();
+});
+})();
+</script>
+</body>
+</html>
